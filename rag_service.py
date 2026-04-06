@@ -40,3 +40,8 @@ print(">>> [系统] RAG 核心服务初始化完毕！")
 async def process_question(question: str) -> str:
     """供 main.py 调用的核心业务函数"""
     return await rag_chain.ainvoke(question)
+
+if __name__ == "__main__":
+    # 只有执行 python rag_service.py 时才会运行
+    # 如果是被 main.py import 的，这里的内容会被跳过
+    print("我是直接运行的")
