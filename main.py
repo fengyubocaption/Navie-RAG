@@ -14,7 +14,6 @@ async def ask_question(request: AskRequest):
     接收用户提问，调用 RAG 业务层处理，返回结果。
     """
     try:
-        # FastAPI 这一层根本不关心 LangChain 的细节，直接要结果
         answer = await process_question(request.question)
         return AskResponse(answer=answer)
 

@@ -6,7 +6,6 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
 import qwen_utils
-# 💡 引入我们刚刚抽离出来的数据层方法
 from document_loader import load_and_split_document
 
 print(">>> [系统] 正在初始化 RAG 知识库与检索链...")
@@ -17,7 +16,7 @@ split_docs = load_and_split_document("sample.md")
 # 2. 初始化向量库和检索器
 embeddings = DashScopeEmbeddings(model="text-embedding-v2")
 vectorstore = FAISS.from_documents(split_docs, embeddings)
-retriever = vectorstore.as_retriever()
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
 # 3. 初始化模型与 Prompt
 llm = qwen_utils.get_qwen_llm()
