@@ -1,0 +1,12 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  rag-api:
+    build: .                  # 告诉 Compose 根据当前目录的 Dockerfile 现场构建镜像
+    container_name: rag-server # 容器叫什么名字
+    ports:
+      - "8000:8000"           # 端口映射：主机端口:容器端口
+    env_file:
+      - .env                  # 自动把本地的 .env 文件注入到容器里
+    restart: always           # 遇到错误崩溃时自动重启，保证服务高可用

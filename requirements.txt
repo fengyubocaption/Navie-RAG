@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+langchain
+langchain-community
+langchain-core
+dashscope
+python-dotenv
+faiss-cpu
+pypdf
+unstructured[md]
