@@ -14,7 +14,7 @@ async def ask_question(request: AskRequest):
     接收用户提问，调用 RAG 业务层处理，返回结果。
     """
     try:
-        answer = await process_question(request.question)
+        answer = await process_question(request.question, request.strategy)
         return AskResponse(answer=answer)
 
     except Exception as e:
