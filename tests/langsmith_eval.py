@@ -1,8 +1,8 @@
 from langsmith import evaluate, Client
 from langchain_core.output_parsers import StrOutputParser
 
-import qwen_utils
-from rag_service import (
+from core import qwen_utils
+from core.rag_service import (
     vector_retriever,
     create_multi_query_retriever,
     create_hyde_retriever,
