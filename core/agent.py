@@ -1,50 +1,11 @@
 # core/agent.py
-from langchain_core.tools import tool
 from langchain.agents import create_agent
 from langchain.messages import HumanMessage, SystemMessage
-from langchain_community.tools import DuckDuckGoSearchRun
 
 from core import qwen_utils
-from core.retriever import get_retriever_by_strategy
+from core.tools import AGENT_TOOLS
 
 llm = qwen_utils.get_qwen_llm()
-
-
-@tool
-def search_local_files(query: str) -> str:
-    """
-    当用户询问关于公司内部文档、私有技术方案、或刚上传的资料时，必须使用此工具。
-    输入应是高度概括的搜索关键词。
-    """
-    print(f"\n[🛠️ Agent] 正在调用本地 RAG 检索: '{query}'...")
-
-    # 完美复用你昨天的终极策略！
-    retriever = get_retriever_by_strategy("ultimate", llm)
-    docs = retriever.invoke(query)
-
-    if not docs:
-        return "本地知识库中未找到相关内容。"
-
-    # 将高亮文档块打包给大模型看
-    context = "\n\n".join([f"文档片段:\n{doc.page_content}" for doc in docs])
-    return f"本地检索结果:\n{context}"
-
-
-@tool
-def web_search(query: str) -> str:
-    """
-    当用户询问最新新闻、当下日期、产品最新评价、或本地文档中没有的通用外部知识时，使用此工具。
-    """
-    print(f"\n[🛠️ Agent] 正在进行全网搜索: '{query}'...")
-    search = DuckDuckGoSearchRun()
-    try:
-        result = search.invoke(query)
-        return f"网络搜索结果:\n{result}"
-    except Exception as e:
-        return f"网络搜索失败: {str(e)}"
-
-
-tools = [search_local_files, web_search]
 
 
 async def run_research_agent(question: str) -> str:
@@ -61,7 +22,7 @@ async def run_research_agent(question: str) -> str:
         "务必在回答末尾明确标注信息来源，例如：[来源：本地文档] 或 [来源：网络搜索]。"
     )
 
-    agent = create_agent(model=llm, tools=tools)
+    agent = create_agent(model=llm, tools=AGENT_TOOLS)
     inputs = {"messages": [system_msg, HumanMessage(question)]}
 
     print(f">>> [业务层] 研究助手启动，目标任务: {question}")
