@@ -7,7 +7,6 @@ services:
     environment:
       - ETCD_AUTO_COMPACTION_RETENTION_RENDER_BY_HOUR=1
       - ALLOW_NONE_AUTHENTICATION=yes
-      # 关键修改：告诉 etcd 监听所有 IP，并使用服务名进行通信
       - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
       - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
       - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
@@ -15,8 +14,9 @@ services:
       - ETCD_INITIAL_CLUSTER=default=http://etcd:2380
       - ETCD_INITIAL_CLUSTER_STATE=new
       - ETCD_NAME=default
+      - ETCD_DATA_DIR=/etcd
     volumes:
-      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/bitnami/etcd
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
 
   minio:
     container_name: test-milvus-minio

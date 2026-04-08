@@ -31,7 +31,7 @@ async def ingest_knowledge(target_name: str) -> int:
     接收文件名或目录名，切分并追加写入向量数据库
     """
     # 1. 拼接绝对路径（默认去 file 目录下找）
-    target_path = os.path.join(settings.DATA_DIR, target_name)
+    target_path = os.path.join(settings.FILE_DIR, target_name)
 
     # 2. 加载并切分文档
     docs = load_and_split_path(target_path)
