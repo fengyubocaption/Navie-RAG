@@ -28,6 +28,12 @@ def load_and_split_path(target_path: str):
         file_extension = os.path.splitext(file_path)[1].lower()
         try:
             if file_extension == ".pdf":
+                # TODO: 复杂 PDF 解析专项升级
+                # 目前使用的 PyPDFLoader 仅能提取纯文本，无法处理表格和图片。
+                # 待优化方案：
+                # 1. 使用 UnstructuredPDFLoader(strategy="hi_res") 开启布局分析。
+                # 2. 集成 MinerU (Magic-PDF) 实现对论文/报表的高精度 Markdown 还原。
+                # 3. 引入多模态模型 (如 Qwen-VL) 处理图片中的文字。
                 loader = PyPDFLoader(file_path)
             elif file_extension == ".md":
                 loader = UnstructuredMarkdownLoader(file_path)
