@@ -19,10 +19,8 @@ class AgentStressTestUser(HttpUser):
         self.session_id = f"locust_user_{generate_random_session_id()}"
         # 预设几个典型的 RAG/Agent 问题
         self.questions = [
-            "查一下数据库里Engineering部门薪水最高的人的名字。",
             "上海今天天气怎么样？",
-            "请总结一下本地文档里关于大模型检索优化的内容。",
-            "帮我查一下ID为2的用户的公司名称。"
+            "请总结一下本地文档里关于大模型检索优化的内容。"
         ]
 
     @task
